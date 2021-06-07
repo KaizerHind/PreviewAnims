@@ -31,7 +31,7 @@
 			const container = document.createElement('div');
 			document.body.appendChild(container);
 
-			camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 1, 2000);
+			camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 1, 12000);
 			camera.position.set(150, 120, -200);
 
 			scene = new THREE.Scene();
@@ -95,7 +95,7 @@
 			container.appendChild(renderer.domElement);
 
 			const controls = new OrbitControls(camera, renderer.domElement);
-			controls.target.set(0, 0, 0);
+			controls.target.set(0, 100, 0);
 			controls.update();
 
 			window.addEventListener('resize', onWindowResize);
