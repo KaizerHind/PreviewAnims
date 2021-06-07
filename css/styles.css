@@ -2,7 +2,6 @@ html,
 body {
     width: 100%;
     height: 100%;
-    position: relative;
     width: 100%;
     height: 100%;
     z-index: 9999;
@@ -12,14 +11,81 @@ a {
     left: 25px;
 }
 
+.title_gtsa{
+    padding-top: 70px;
+    text-align: center;
+    margin-left: -120px;
+}
+
+/*
+##########################
+##      Data Fonts      ##
+##########################
+*/
+
+.textinfo {
+    font-size: 17px;
+    font-family: 'Asap', sans-serif;
+}
+
+div {
+    display: block;
+}
+
+.text-center {
+    text-align: center!important;
+    padding-top: 10px;
+}
+
+
 .container{
-    position: relative;
+    position: relative!important;
+    top: -70px;
+    left: -220px;
+}
+
+.subtitle1{
+    position: absolute;
+    color: white;
+    top: 100px;
+    left: 270px;
+    z-index: 1;
 }
 
 .btn1 {
     position: absolute;
     top: 150px;
     left: 270px;
+}
+
+.btn2 {
+    position: absolute;
+    top: 150px;
+    left: 410px;
+}
+
+.btn3 {
+    position: absolute;
+    top: 150px;
+    left: 550px;
+}
+
+.btn4 {
+    position: absolute;
+    top: 150px;
+    left: 690px;
+}
+
+.btn5 {
+    position: absolute;
+    top: 150px;
+    left: 870px;
+}
+
+.btn6 {
+    position: absolute;
+    top: 150px;
+    left: 1070px;
 }
 
 button.btn.btn-dark {
