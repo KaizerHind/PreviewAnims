@@ -17,6 +17,33 @@ a {
     margin-left: -120px;
 }
 
+
+.ico_credits {
+    position: absolute;
+    animation: float 3s ease-in-out infinite;
+    left: 40px;
+    top: 600px;
+}
+
+.f-container {
+    position: relative!important;
+    top: 0px;
+    left: 0px;
+}
+
+@keyframes float {
+	0% {
+		transform: translatey(0px);
+	}
+	50% {
+        box-shadow: 0 25px 15px 0px rgb(0 0 0 / 60%);
+        border-radius: 80px;
+        transform: translatey(-20px);
+	}
+	100% {
+		transform: translatey(0px);
+	}
+}
 /*
 ##########################
 ##      Data Fonts      ##
@@ -86,6 +113,13 @@ div {
     position: absolute;
     top: 150px;
     left: 1070px;
+}
+
+
+.btn7 {
+    position: absolute;
+    top: 220px;
+    left: 270px;
 }
 
 button.btn.btn-dark {
