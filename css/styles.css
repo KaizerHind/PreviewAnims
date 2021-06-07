@@ -11,13 +11,22 @@ a {
     left: 25px;
 }
 
+/*
+###################
+##   Title Web   ##
+###################
+*/
 .title_gtsa{
     padding-top: 70px;
     text-align: center;
     margin-left: -120px;
 }
 
-
+/*
+##############################
+##   Effect float - Autor   ##
+##############################
+*/
 .ico_credits {
     position: absolute;
     animation: float 3s ease-in-out infinite;
@@ -64,7 +73,11 @@ div {
     padding-top: 10px;
 }
 
-
+/*
+############################
+##   Container category   ##
+############################
+*/
 .container{
     position: relative!important;
     top: -70px;
