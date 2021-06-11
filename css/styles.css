@@ -135,6 +135,139 @@ div {
     left: 270px;
 }
 
+.btn8 {
+    position: absolute;
+    top: 220px;
+    left: 410px;
+}
+
+.btn9 {
+    position: absolute;
+    top: 220px;
+    left: 550px;
+}
+
+.btn10 {
+    position: absolute;
+    top: 220px;
+    left: 690px;
+}
+
+.btn11 {
+    position: absolute;
+    top: 220px;
+    left: 870px;
+}
+
+.btn12 {
+    position: absolute;
+    top: 220px;
+    left: 1070px;
+}
+
+
+.btn13 {
+    position: absolute;
+    top: 290px;
+    left: 270px;
+}
+
+.btn14 {
+    position: absolute;
+    top: 290px;
+    left: 410px;
+}
+
+.btn15 {
+    position: absolute;
+    top: 290px;
+    left: 550px;
+}
+
+.btn16 {
+    position: absolute;
+    top: 290px;
+    left: 690px;
+}
+
+.btn17 {
+    position: absolute;
+    top: 290px;
+    left: 870px;
+}
+
+.btn18 {
+    position: absolute;
+    top: 290px;
+    left: 1070px;
+}
+
+.btn19 {
+    position: absolute;
+    top: 360px;
+    left: 270px;
+}
+
+.btn20 {
+    position: absolute;
+    top: 360px;
+    left: 410px;
+}
+
+.btn21 {
+    position: absolute;
+    top: 360px;
+    left: 550px;
+}
+
+.btn22 {
+    position: absolute;
+    top: 360px;
+    left: 690px;
+}
+
+.btn23 {
+    position: absolute;
+    top: 360px;
+    left: 870px;
+}
+
+.btn24 {
+    position: absolute;
+    top: 360px;
+    left: 1070px;
+}
+
+.btn25 {
+    position: absolute;
+    top: 430px;
+    left: 270px;
+}
+
+.btn26 {
+    position: absolute;
+    top: 430px;
+    left: 410px;
+}
+
+.btn27 {
+    position: absolute;
+    top: 430px;
+    left: 550px;
+}
+
+.btn28 {
+    position: absolute;
+    top: 430px;
+    left: 690px;
+}
+
+.btn29 {
+    position: absolute;
+    top: 430px;
+    left: 870px;
+}
+
 button.btn.btn-dark {
     position: absolute;
     text-align: center;
