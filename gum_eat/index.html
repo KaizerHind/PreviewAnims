@@ -43,23 +43,23 @@
 				scene.add( hemiLight );
 
 				const dirLight = new THREE.DirectionalLight( 0xffffff );
-				dirLight.position.set( 0, 0, 0 );
+				dirLight.position.set( 0, 200, 100 );
 				dirLight.castShadow = true;
-				dirLight.shadow.camera.top = 0;
-				dirLight.shadow.camera.bottom = - 0;
-				dirLight.shadow.camera.left = - 0;
-				dirLight.shadow.camera.right = 0;
+				dirLight.shadow.camera.top = 180;
+				dirLight.shadow.camera.bottom = - 100;
+				dirLight.shadow.camera.left = - 120;
+				dirLight.shadow.camera.right = 120;
 				scene.add( dirLight );
 
 				// scene.add( new THREE.CameraHelper( dirLight.shadow.camera ) );
 
 				// ground
-				const mesh = new THREE.Mesh( new THREE.PlaneGeometry( 2000, 2000 ), new THREE.MeshPhongMaterial( { color: 0x999999, depthWrite: false } ) );
+				const mesh = new THREE.Mesh( new THREE.PlaneGeometry( 4000, 4000 ), new THREE.MeshPhongMaterial( { color: 0x999999, depthWrite: false } ) );
 				mesh.rotation.x = - Math.PI / 2;
 				mesh.receiveShadow = true;
 				scene.add( mesh );
 
-				const grid = new THREE.GridHelper( 2000, 20, 0x000000, 0x000000 );
+				const grid = new THREE.GridHelper( 4000, 20, 0x000000, 0x000000 );
 				grid.material.opacity = 0.2;
 				grid.material.transparent = true;
 				scene.add( grid );
