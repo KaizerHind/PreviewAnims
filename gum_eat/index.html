@@ -31,8 +31,8 @@
 				const container = document.createElement( 'div' );
 				document.body.appendChild( container );
 
-				camera = new THREE.PerspectiveCamera( 110, window.innerWidth / window.innerHeight, 1, 4000 );
-				camera.position.set( -150, 120, -200 );
+				camera = new THREE.PerspectiveCamera( 110, window.innerWidth / window.innerHeight, 1, 2000 );
+				camera.position.set( 150, 120, -200 );
 
 				scene = new THREE.Scene();
 				scene.background = new THREE.Color( 0xa0a0a0 );
@@ -43,12 +43,12 @@
 				scene.add( hemiLight );
 
 				const dirLight = new THREE.DirectionalLight( 0xffffff );
-				dirLight.position.set( 0, 200, 100 );
+				dirLight.position.set( 0, 0, 0 );
 				dirLight.castShadow = true;
-				dirLight.shadow.camera.top = 180;
-				dirLight.shadow.camera.bottom = - 100;
-				dirLight.shadow.camera.left = - 120;
-				dirLight.shadow.camera.right = 120;
+				dirLight.shadow.camera.top = 0;
+				dirLight.shadow.camera.bottom = - 0;
+				dirLight.shadow.camera.left = - 0;
+				dirLight.shadow.camera.right = 0;
 				scene.add( dirLight );
 
 				// scene.add( new THREE.CameraHelper( dirLight.shadow.camera ) );
