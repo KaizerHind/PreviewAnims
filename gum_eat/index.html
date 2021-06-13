@@ -1,108 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Preview gum_eat</title>
+		<title>three.js webgl - additive animation - skinning</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<link type="text/css" rel="stylesheet" href="main.css">
-		<link rel="shortcut icon" type="image/jpg" href="../_wgallery/KProjects.png" />
+		<style>
+			a {
+				color: blue;
+			}
+			.control-inactive {
+				color: #888;
+			}
+		</style>
 	</head>
-
 	<body>
+		<div id="container"></div>
+		<div id="info">
+			<a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> - Skeletal Additive Animation Blending
+			(model from <a href="https://www.mixamo.com/" target="_blank" rel="noopener">mixamo.com</a>)<br/>
+		</div>
 
 		<script type="module">
 
 			import * as THREE from '../build/three.module.js';
+
 			import Stats from '../ARRESTgun/jsm/libs/stats.module.js';
 			import { OrbitControls } from '../ARRESTgun/jsm/controls/OrbitControls.js';
-			import { FBXLoader } from '../ARRESTgun/jsm/loaders/FBXLoader.js';
+			import { OrbitControls } from '.../ARRESTgun/jsm/loaders/FBXLoader.js';
 
-			let camera, scene, renderer, stats;
+			let scene, renderer, camera, stats;
+			let model, skeleton, mixer, clock;
 
-			const clock = new THREE.Clock();
+			const crossFadeControls = [];
 
-			let mixer;
+			let currentBaseAction = 'idle';
+			const allActions = [];
+			const baseActions = {
+				idle: { weight: 1 },
+				walk: { weight: 0 },
+				run: { weight: 0 }
+			};
+			const additiveActions = {
+				sneak_pose: { weight: 0 },
+				sad_pose: { weight: 0 },
+				agree: { weight: 0 },
+				headShake: { weight: 0 }
+			};
+			let panelSettings, numAnimations;
 
 			init();
-			animate();
 
 			function init() {
 
-				const container = document.createElement( 'div' );
-				document.body.appendChild( container );
-
-				camera = new THREE.PerspectiveCamera( 110, window.innerWidth / window.innerHeight, 1, 2000 );
-				camera.position.set( 150, 120, -200 );
+				const container = document.getElementById( 'container' );
+				clock = new THREE.Clock();
 
 				scene = new THREE.Scene();
 				scene.background = new THREE.Color( 0xa0a0a0 );
-				scene.fog = new THREE.Fog( 0xa0a0a0, 200, 1000 );
+				scene.fog = new THREE.Fog( 0xa0a0a0, 10, 50 );
 
 				const hemiLight = new THREE.HemisphereLight( 0xffffff, 0x444444 );
-				hemiLight.position.set( 200, 200, 200 );
+				hemiLight.position.set( 0, 20, 0 );
 				scene.add( hemiLight );
 
 				const dirLight = new THREE.DirectionalLight( 0xffffff );
-				dirLight.position.set( 0, 200, 100 );
+				dirLight.position.set( 3, 10, 10 );
 				dirLight.castShadow = true;
-				dirLight.shadow.camera.top = 180;
-				dirLight.shadow.camera.bottom = - 100;
-				dirLight.shadow.camera.left = - 120;
-				dirLight.shadow.camera.right = 120;
+				dirLight.shadow.camera.top = 2;
+				dirLight.shadow.camera.bottom = - 2;
+				dirLight.shadow.camera.left = - 2;
+				dirLight.shadow.camera.right = 2;
+				dirLight.shadow.camera.near = 0.1;
+				dirLight.shadow.camera.far = 40;
 				scene.add( dirLight );
 
-				// scene.add( new THREE.CameraHelper( dirLight.shadow.camera ) );
-
 				// ground
-				const mesh = new THREE.Mesh( new THREE.PlaneGeometry( 4000, 4000 ), new THREE.MeshPhongMaterial( { color: 0x999999, depthWrite: false } ) );
+
+				const mesh = new THREE.Mesh( new THREE.PlaneGeometry( 100, 100 ), new THREE.MeshPhongMaterial( { color: 0x999999, depthWrite: false } ) );
 				mesh.rotation.x = - Math.PI / 2;
 				mesh.receiveShadow = true;
 				scene.add( mesh );
 
-				const grid = new THREE.GridHelper( 4000, 20, 0x000000, 0x000000 );
-				grid.material.opacity = 0.2;
-				grid.material.transparent = true;
-				scene.add( grid );
+				const loader = new OrbitControls();
+				loader.load( 'models/fbx/gas_cwr.fbx', function ( object ) {
 
-				// model
-				const loader = new FBXLoader();
-				loader.load( 'models/fbx/gum_eat.fbx', function ( object ) {
+					model = object.scene;
+					scene.add( model );
 
-					mixer = new THREE.AnimationMixer( object );
+					model.traverse( function ( object ) {
 
-					const action = mixer.clipAction( object.animations[ 0 ] );
-					action.play();
-
-					object.traverse( function ( child ) {
-
-						if ( child.isMesh ) {
-
-							child.castShadow = true;
-							child.receiveShadow = true;
-
-						}
+						if ( object.isMesh ) object.castShadow = true;
 
 					} );
 
-					scene.add( object );
+					skeleton = new THREE.SkeletonHelper( model );
+					skeleton.visible = false;
+					scene.add( skeleton );
+
+					const animations = object.animations;
+					mixer = new THREE.AnimationMixer( model );
+
+					numAnimations = animations.length;
+
+					for ( let i = 0; i !== numAnimations; ++ i ) {
+
+						let clip = animations[ i ];
+						const name = clip.name;
+
+						if ( baseActions[ name ] ) {
+
+							const action = mixer.clipAction( clip );
+							activateAction( action );
+							baseActions[ name ].action = action;
+							allActions.push( action );
+
+						} else if ( additiveActions[ name ] ) {
+
+							// Make the clip additive and remove the reference frame
+
+							THREE.AnimationUtils.makeClipAdditive( clip );
+
+							if ( clip.name.endsWith( '_pose' ) ) {
+
+								clip = THREE.AnimationUtils.subclip( clip, clip.name, 2, 3, 30 );
+
+							}
+
+							const action = mixer.clipAction( clip );
+							activateAction( action );
+							additiveActions[ name ].action = action;
+							allActions.push( action );
+
+						}
+
+					}
+
+					createPanel();
+
+					animate();
 
 				} );
 
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer.outputEncoding = THREE.sRGBEncoding;
 				renderer.shadowMap.enabled = true;
 				container.appendChild( renderer.domElement );
 
+				// camera
+				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 100 );
+				camera.position.set( - 1, 2, 3 );
+
 				const controls = new OrbitControls( camera, renderer.domElement );
-				controls.target.set( 0, 100, 0 );
+				controls.enablePan = false;
+				controls.enableZoom = false;
+				controls.target.set( 0, 1, 0 );
 				controls.update();
 
-				window.addEventListener( 'resize', onWindowResize );
-
-				// stats
 				stats = new Stats();
 				container.appendChild( stats.dom );
+
+				window.addEventListener( 'resize', onWindowResize );
 
 			}
 
@@ -115,19 +175,32 @@
 
 			}
 
-			//
-
 			function animate() {
+
+				// Render loop
 
 				requestAnimationFrame( animate );
 
-				const delta = clock.getDelta();
+				for ( let i = 0; i !== numAnimations; ++ i ) {
 
-				if ( mixer ) mixer.update( delta );
+					const action = allActions[ i ];
+					const clip = action.getClip();
+					const settings = baseActions[ clip.name ] || additiveActions[ clip.name ];
+					settings.weight = action.getEffectiveWeight();
 
-				renderer.render( scene, camera );
+				}
+
+				// Get the time elapsed since the last frame, used for mixer update
+
+				const mixerUpdateDelta = clock.getDelta();
+
+				// Update the animation mixer, the stats panel, and render this frame
+
+				mixer.update( mixerUpdateDelta );
 
 				stats.update();
+
+				renderer.render( scene, camera );
 
 			}
 
