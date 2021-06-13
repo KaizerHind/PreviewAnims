@@ -5,14 +5,6 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<link type="text/css" rel="stylesheet" href="main.css">
-		<style>
-			a {
-				color: blue;
-			}
-			.control-inactive {
-				color: #888;
-			}
-		</style>
 	</head>
 	<body>
 		<div id="container"></div>
@@ -24,10 +16,9 @@
 		<script type="module">
 
 			import * as THREE from '../build/three.module.js';
-
 			import Stats from '../ARRESTgun/jsm/libs/stats.module.js';
 			import { OrbitControls } from '../ARRESTgun/jsm/controls/OrbitControls.js';
-			import { OrbitControls } from '.../ARRESTgun/jsm/loaders/FBXLoader.js';
+			import { FBXLoader } from '../ARRESTgun/jsm/loaders/FBXLoader.js';
 
 			let scene, renderer, camera, stats;
 			let model, skeleton, mixer, clock;
