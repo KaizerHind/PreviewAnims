@@ -6,7 +6,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 	<link type="text/css" rel="stylesheet" href="main.css">
-
+	
 </head>
 
 <body>
@@ -32,15 +32,15 @@
 			const container = document.createElement('div');
 			document.body.appendChild(container);
 
-			camera = new THREE.PerspectiveCamera(98, window.innerWidth / window.innerHeight, 1, 2000);
-			camera.position.set(150, 120, -200);
+			camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
+			camera.position.set(100, 200, 300);
 
 			scene = new THREE.Scene();
 			scene.background = new THREE.Color(0xa0a0a0);
 			scene.fog = new THREE.Fog(0xa0a0a0, 200, 1000);
 
 			const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444);
-			hemiLight.position.set(200, 200, 200);
+			hemiLight.position.set(0, 200, 0);
 			scene.add(hemiLight);
 
 			const dirLight = new THREE.DirectionalLight(0xffffff);
