@@ -77,8 +77,9 @@
 	
 						if (child.isMesh) {
 	
-							child.castShadow = false;
-							child.receiveShadow = false;
+							child.castShadow = true;
+							child.receiveShadow = true;
+							child.frustumCulled = false;
 	
 						}
 	
